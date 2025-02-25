@@ -20,7 +20,3 @@ API Endpoint 설계
 
 
 
-commit 까지만 하면 로컬 저장소에만 저장된 상태여서 원격 저장소에 push 를 해야 하는데
-push 를 하기 위해서 원격저장소, 어느 저장소와 연결을 할것인지에 대해 먼저 설정을 해줘야 함
-git remote add origin https://닉네임:토큰@프로젝트url
- git remote add origin https://hjin111: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@github.com/hjin111/todo-server.git
