@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -32,6 +34,38 @@ public class TaskService {
         return entityToObject(saved); // 저장 된 TaskEntity 객체를 다시 DTO 형태 클래스로 변환을 해서 반환을 해주도록 함
     }
 
+    // 데이터 모든 목록을 조회하는 메서드
+    public List<Task> getAll() {
+        return this.taskRepository.findAll().stream() // stream 을 이용해서 TaskEntity 객체를 Task 객체로 매핑해주겠음
+                .map(this::entityToObject) // map 에서 TaskEntity 객체를 Task 객체로 변환을 할 건데 entityToObject 메서드 호출 해주기
+                .collect(Collectors.toList()); // 마지막으로 collect 메서드를 이용해서 Task 로 변환 된 객체를 List 형태로 반환을 해주면 됨
+    }
+
+    // 마감일에 해당하는 할 일 목록을 조회하는 메서드
+    public List<Task> getByDueDate(String dueDate) {
+        return this.taskRepository.findAllByDueDate(Date.valueOf(dueDate)).stream()
+                .map(this::entityToObject)
+                .collect(Collectors.toList());
+    }
+
+    // status 에 해당하는 할 일 목록을 조회 하는 메서드
+    public List<Task> getByStatus(TaskStatus status) {
+        return this.taskRepository.findAllByStatus(status).stream()
+                .map(this::entityToObject)
+                .collect(Collectors.toList());
+    }
+
+    // 특정 id에 해당하는 할 일 데이터를 조회 하는 메서드
+    public Task getOne(Long id) {
+        var entity = this.getById(id);
+        return this.entityToObject(entity);
+    }
+
+    private TaskEntity getById(Long id) {
+     return this.taskRepository.findById(id) // Optional 타입을 반환을 함. 해당 id의 데이터가 db에 존재하지 않는 경우가 있을 수 있기 때문에 null이 될수 있다
+             .orElseThrow(() -> new IllegalArgumentException(String.format("not exists task id [%d]",id))); // 값이 없는 경우
+    }
+
     private Task entityToObject(TaskEntity e) {
         return Task.builder()
                 .id(e.getId())
@@ -45,5 +79,6 @@ public class TaskService {
                 .updatedAt(e.getUpdatedAt().toLocalDateTime())
                 .build();
     }
+
 
 }
