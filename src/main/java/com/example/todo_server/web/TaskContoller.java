@@ -1,5 +1,6 @@
 package com.example.todo_server.web;
 
+import com.example.todo_server.constants.TaskStatus;
 import com.example.todo_server.model.Task;
 import com.example.todo_server.service.TaskService;
 import com.example.todo_server.web.vo.TaskRequest;
@@ -7,9 +8,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j // 로그 사용
 @Controller
@@ -29,4 +31,45 @@ public class TaskContoller {
         var result = this.taskService.add(req.getTitle(), req.getDescription(), String.valueOf(req.getDueDate())); // Task 인스턴스 반환
         return ResponseEntity.ok(result); // ResponseEntiy 객체를 생성을 해서 이 result 를 http 응답 body 에다 담아 클라이언트에 반환해줌
     }
+
+    /**
+     * 특정 마감일에 해당하는 할일 목록을 반환
+     * @param dueDate 할 일의 마감일
+     * @return 마감일에 해당하는 할일 목록
+     */
+    @GetMapping
+    public ResponseEntity<List<Task>> getTasks(Optional<String> dueDate) { // Optional 타입으로 받기 때문에 값은 있을 수도 있고 없을 수도 있다
+
+        List<Task> result;
+        if (dueDate.isPresent()) { // 마감일이 있는 경우
+            result = this.taskService.getByDueDate(dueDate.get());
+        } else { // 마감일이 없는 경우는 모든 데이터 목록을 가져옴
+            result = this.taskService.getAll();
+        }
+
+        return ResponseEntity.ok(result);
+    }
+
+    /**
+     * 특정 ID에 해당하는 할 일을 조회
+     * @param id 할 일 ID
+     * @return ID에 해당하는 할일 객체
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<Task> fetchOneTask(@PathVariable Long id) {
+        var result = this.taskService.getOne(id);
+        return ResponseEntity.ok(result);
+    }
+
+    /**
+     * 특정 상태에 해당하는 할일 목록을 반환
+     * @param status 할일 상태
+     * @return 상태에 해당하는 할일 목록
+     */
+    @GetMapping("/status/{status}")
+    public ResponseEntity<List<Task>> getByStatus(@PathVariable TaskStatus status) {
+        var result = this.taskService.getByStatus(status);
+        return ResponseEntity.ok(result);
+    }
+
 }
