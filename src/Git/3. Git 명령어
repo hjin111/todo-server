@@ -1,0 +1,86 @@
+git init
+- Git 저장소를 초기화 하고 새로운 로컬 저장소 생성 ( 새로운 git 저장소를 만들 수 있음 )
+- .git 디렉토리 생성 ( .git 디렉토리 내부의 git 저장소에 필요한 파일들을 생성 하게 된다 , .git은 숨김 파일 속성 )
+
+git status
+- git 저장소의 상태 확인
+- 현재 작업 중인 파일의 변경 사항이나 커밋되지 않은 변경 내역 확인
+
+- Working tree status
+- Staging area status
+
+git add
+- 파일을 stage 영역에 추가 ( 작업 디렉토리에서 변경된 파일을 git 의 stage 영역으로 추가)
+- -A 작업 디렉토리 전체의 변경된 파일 추가
+
+git add <file>
+git add <file1> <file2>...
+git add -A
+
+cf. stage 영역
+- stage 영역은 commit 을 수행 하기 전에 변경된 파일을 모아 둘 임시 저장소 역할을 함
+
+
+git commit
+- 변경 내용을 저장하고 커밋 ( 작업 디렉토리에서 변경된 내용을 저장소에 영구적으로 저장 )
+- 변경된 내용에 대한 스냅샷을 생성하고 스냅샷에 대한 메시지를 작성
+- -m 은 커밋 메시지를 작성하는 옵션
+- git commit 명령어를 실행 하게 되면 git 은 commit 객체를 생성하게 되고 commit 객체에는 변경된 내용과 작성해준 commit 메세지와
+  같은 정보들이 같이 저장이 됨
+- commit 객체는 고유한 해시 값으로 식별이 될 수 있고 이 해시 값은 변경 내용의 스냅샷과 함께 저장소에 저장이 되게 된다
+- 이렇게 저장 된 commit 객체는 나중에 이전 상태로 되돌리기 위해서 사용할 수 있게 된다
+
+git push
+- commit 까지만 하게 되면 원격 저장소가 아닌 로컬 저장소에만 저장이 된 상태
+- 원격 저장소 까지 우리가 commit 한 내용을 반영하기 위해서는 push 를 추가로 수행 해줘야 함
+- 로컬 저장소에서 변경된 내용,commit 기록을 원격 저장소로 업로드
+- git push <원격저장소명> <local_branchname>:<remote_branchname>
+
+
+git pull
+- 원격 저장소에서 변경된 내용을 로컬 저장소로 가져와서 merge 하는 역할
+- 다른 개발자들이 작업한 내용을 자신의 로컬 저장소로 가져올 때 사용
+- git pull <원격저장소명> <branchname>
+
+git clone
+- 원격 저장소에 있는 프로젝트를 내 로컬로 복제
+- 이 명령어를 사용하게 되면 로컬 저장소가 자동으로 초기화가 됨 ( git init 을 따로 안 해도 됨 )
+- git clone <원격저장소URL> <local_name>
+
+git log
+- Git 저장소의 커밋 히스토리 확인
+- 가장 최근 것부터 역순으로 출력
+
+git reset
+- 이전 커밋 상태로 되돌리거나 인덱스의 상태를 변경하는 명령어
+- 현재 작업 중인 브랜치의 커밋 히스토리를 변경할 수 있다
+- git reset HEAD -> 가장 최근에 스테이징한 변경 내역을 언스테이징
+- git reset HEAD <file> -> 지정한 파일의 변경 사항을 언스테이징
+- git reset --soft <commit> -> 지정한 커밋으로 되돌아가며, 변경 사항 유지
+- git reset --hard <commit> -> 지정한 커밋으로 되돌아가며, 변경 사항 삭제
+
+git stash
+- 변경 사항을 임시로 저장 ( 작업 중인 변경 내용을 commit 하지는 않고 stack 에다 임시로 저장 가능 )
+- 변경 사항이 아직 작고 commit 할만한게 아닌 상황일 때, 혹은 일부만 완료 되었거나 잠깐 중단 해야 될 때
+  그래서 변경 사항을 커밋 하기 전에 다른 브랜치로 전환해야 할 때 쓸 수 있음
+- git stash pop 을 통해 다시 적용 ( pop을 하게 되면 이전에 저장했던 변경 사항을 그대로 꺼내와서 그대로 해당 위치서부터 작업 가능 )
+- list 스택에 저장된 목록을 확인
+- drop 가장 최근에 저장된 stash 삭제
+
+git diff
+- 변경 내용 비교
+
+git branch
+- 현재 저장소의 모든 브랜치 내용들을 출력
+- -r 원격 브랜치만 표시
+- -a 모든 브랜치를 표시
+- --list 브랜치 이름만 출력
+- -v 브랜치 이름과 마지막 커밋 메시지 출력
+- -d<branchname> 브랜치 삭제
+
+git checkout
+- 브랜치를 전환하거나, 커밋을 확인하기 위해 작업 디렉토리를 변경하는 명령어
+- branchname 으로 지정한 브랜치로 작업 디렉토리를 전환
+- -b<branchname> 새로운 브랜치를 생성하고 새로 생성된 브랜치로 전환
+- git checkout -b <branchname>
+- git checkout <commit_hash>

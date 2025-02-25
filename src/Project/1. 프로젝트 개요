@@ -1,0 +1,27 @@
+프로젝트 개요
+- Todo API 어플리케이션
+- 사용자가 할 일을 관리할 수 있는 어플리케이션 서버 개발
+
+기술 스택
+- Spring Boot(JAVA)
+- H2 Database
+- Git
+
+필요 기능
+- 할 일 추가,조회,수정,삭제
+- 할 일의 와료 상태 표시 및 변경
+
+테이블
+- Task 테이블
+
+API Endpoint 설계
+- 요청과 응답은 JSON 형식
+- 표준 HTTP 상태 코드로 성공,실패,오류 표시
+
+토큰
+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
+
+commit 까지만 하면 로컬 저장소에만 저장된 상태여서 원격 저장소에 push 를 해야 하는데
+push 를 하기 위해서 원격저장소, 어느 저장소와 연결을 할것인지에 대해 먼저 설정을 해줘야 함
+git remote add origin https://닉네임:토큰@프로젝트url
+ git remote add origin https://hjin111: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@github.com/hjin111/todo-server.git

@@ -1,0 +1,82 @@
+Git Branch 전략의 필요성
+- 코드 관리의 효율성
+- 작업의 독립성
+- 안정성 유지
+- 코드 리뷰 및 품질 관리
+- 배포 및 롤백의 용이성
+
+[ Feature Branch 전략 ]
+- 각 기능별로 독립적인 브랜치를 생성하여 작업하는 전략
+- 서로 작업에 영향을 주지 않고 효율적으로 협업
+
+1.브랜치 생성
+- 기준 브랜치 ( ex. master or main ) 에서 새로운 feature 브랜치 생성
+- 브랜치 이름은 해당 기능을 설명하는 명칭 사용
+- 일반적으로 `feature/기능명` 의 형식을 따름
+git checkout -b feature/login ( 로그인 기능 )
+
+2. 작업 진행
+- 새로운 feature 브랜치에서 작업을 진행하고, 필요한 경우 하나의 브랜치에서 여러 개의 커밋 생성
+git add 변경된 파일
+git commit -m "커밋 메시지"
+
+3. 원격 저장소 푸시
+- 기준 브랜치로 병합하기 전에 원격 저장소에 feature 브랜치를 push
+git push origin feature/login
+
+4. 머지
+- 리뷰 후, 기준 브랜치에 feature 브랜치를 머지
+- 머지 후, 불필요한 feature 브랜치 삭제
+git checkout master
+git merge --no-ff feature/login
+git branch -d feature/login
+
+
+[ Github Flow 전략 ]
+- 규모가 작거나 중간 크기의 프로젝트에 적합
+- 빠른 개발 주기와 지속적인 배포에 초점
+
+1. 브랜치 생성
+- 기준 브랜치에서 ( ex. master or main ) 새로운 브랜치 생성
+- 브랜치 명은 작업 내용을 설명하는 명칭
+- 기준 브랜치는 항상 배포 가능한 상태여야 함
+git checkout -b new-feature
+
+2. 작업 진행
+- 작업 진행 후 커밋
+git add 변경된 파일
+git commit -m "커밋 메시지"
+
+3. 원격 저장소 push
+- 작업 완료 후, 원격 저장소에 해당 브랜치 push
+git pugh origin new-feature
+
+4. PR 생성
+- Github 에서 PullRequest(PR) 를 생성하여 코드 리뷰 요청
+- 코드 리뷰 완료 후, 기준 브랜치로 병합하고 PR 종료
+
+[ Git Flow 전략 ]
+- 프로젝트의 코드 관리와 릴리스를 체계적으로 진행하는 방법론
+- Master : 프로덕션 환경에 배포되는 안정적인 코드가 저장되는 브랜치
+- Develop : 개발 중인 코드를 관리하는 브랜치, 개발자들의 작업이 모이는 곳
+- Feature : 새로운 기능 개발을 위한 브랜치( Develop 브랜치로부터 분기, 작업이 완료 후 Develop 브랜치로 merge 함 )
+- Release : 새로운 버전 릴리스를 준비하는 브랜치 ( Develop 브랜치로부터 분기, 작업이 완료 후 Master 나 Develop 브랜치로 merge 함 )
+- Hotfix : 긴급한 버그 수정을 위한 브랜치 ( Master 브랜치에서 분기 )
+
+1. 새로운 기능 개발
+- Develop 브랜치에서 Feature 브랜치를 생성
+- 기능 개발 완료한 후 Develop 브랜치로 머지
+
+2. 릴리스 준비
+- Develop 브랜치에서 Release 브랜치 생성
+- 버전 번호를 부여하고, 문서 작업 등 릴리스와 관련된 작업 진행
+
+3. 릴리스 확정
+- Release 브랜치를 Master 브랜치로 머지
+- 해당 커밋에 태그를 추가하여 릴리스 버전 명시
+- 이후 Release 브랜치는 Develop 브랜치로 머지
+
+4. 긴급한 버그 수정
+- Mater 브랜치에서 발견한 버그는 Hotfix 브랜치를 생성해서 수정
+- 수정 완료 후 Master 와 Develop 브랜치로 머지
+

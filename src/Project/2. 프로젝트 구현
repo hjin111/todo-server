@@ -1,0 +1,7 @@
+- application.yml 파일
+spring:
+  jpa:
+    show-sql: true # 실행 할 sql 구문들이 콘솔에서 확인이 된다
+    hibernate:
+      ddl-auto: none # hibernate 를 사용해서 데이터베이스 스키마를 생성하는 방법을 제어 하는 옵션
+                     # none 을 선택하면 application 이 시작 될 때 데이터 베이스 스키마를 변경하지 않게 된다
