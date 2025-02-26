@@ -24,7 +24,7 @@ public class TaskService {
     private final TaskRepository taskRepository;
 
     // 요청 받은 데이터를 DB에 저장하고 DB에 저장 한 결과를 반환해주는 역할을 하는 메서드 구현
-    public Task add(String title, String description, String dueDate) {
+    public Task add(String title, String description, LocalDate dueDate) {
         // title, description, dueDate 를 input 으로 받아서 데이터 베이스에 저장하는 역할을 담당 저장 된 결과는 Task 인스턴스로 반환을 함
         var e = TaskEntity.builder()
                 .title(title)

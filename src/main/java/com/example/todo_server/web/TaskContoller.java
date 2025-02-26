@@ -30,7 +30,7 @@ public class TaskContoller {
      */
     @PostMapping
     public ResponseEntity<Task> createTask(@RequestBody TaskRequest req) { // RequestBody 를 사용해서 요청 body 로 TaskRequest 를 받도록 함
-        var result = this.taskService.add(req.getTitle(), req.getDescription(), String.valueOf(req.getDueDate())); // Task 인스턴스 반환
+        var result = this.taskService.add(req.getTitle(), req.getDescription(), req.getDueDate()); // Task 인스턴스 반환
         return ResponseEntity.ok(result); // ResponseEntiy 객체를 생성을 해서 이 result 를 http 응답 body 에다 담아 클라이언트에 반환해줌
     }
 
